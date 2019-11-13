@@ -18,12 +18,11 @@ router.get('/api/big',async ctx => {  //通过get接口
 })
 
 router.post('/api/addd',async ctx=>{
-    let {username,bz,lx,idcard} =ctx.request.body
+    let {product,remark,relation} =ctx.request.body
 
 
-    if(username&&bz&&lx){
-        let user=await query('select * from banner where idcard=?',[idcard])//通过查找id
-
+    if(product&&remark&&relation){
+        let user=await query('select * from banner where idcard=?',[product])//通过查找id
         if(user.data.length){
             ctx.code={
                 code:0,
@@ -32,7 +31,7 @@ router.post('/api/addd',async ctx=>{
         }else{
             var new_time=new Date()//获取当前时间
             try{
-                await query('insert into banner (username,bz,lx,new_time,idcard) values(?,?,?,?,?)',[username,bz,lx,new_time,idcard])
+                await query('insert into banner (product,remark,relation,creation_tiem) values(?,?,?,?,?)',[username,bz,lx,new_time])
                 ctx.body={
                     code:1,
                     msg:"添加成功"
@@ -79,12 +78,13 @@ router.get('/api/del',async ctx => {
 
 
 router.post('/api/edit',async ctx => {
-    let {username,bz,lx,idcard,id} =ctx.request.body
+    let {product,remark,relation,id} =ctx.request.body
 
+    var new_time=new Date()
     if(id && username && password && idcard){
         try{
             let new_time = new Date();
-            await query('update userlist set username=?,bz=?,lx=?,idcard=?,new_time=? where id=?',[username,bz,lx,idcard,new_time,id])
+            await query('update userlist set product=?,remark=?,relation=?,creation_time=? where id=?',[product,remark,relation,new_time,id])
             ctx.body = {
                 code:1,
                 msg:'修改成功'

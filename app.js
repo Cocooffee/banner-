@@ -31,7 +31,7 @@ router.post('/api/addd',async ctx=>{
         }else{
             var new_time=new Date()//获取当前时间
             try{
-                await query('insert into banner (product,remark,relation,creation_tiem) values(?,?,?,?,?)',[username,bz,lx,new_time])
+                await query('insert into banner (product,remark,relation,creation_tiem) values(?,?,?,?,?)',[product,remark,relation,new_time])
                 ctx.body={
                     code:1,
                     msg:"添加成功"
